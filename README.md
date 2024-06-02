@@ -9,3 +9,10 @@ Video: https://youtu.be/sFnAHC9lLaw
 Source Code: https://github.com/HaiderMalik12/nestjs-fundamentals
 
 Electronic Book: https://www.haidermalik.dev/nestjs
+
+## NestJs course by Fazt Code
+
+Video: https://youtu.be/wsqcg5ZtUMM
+
+Source Code: https://github.com/FaztWeb/nestjs-course
+
