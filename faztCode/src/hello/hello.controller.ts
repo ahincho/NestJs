@@ -1,5 +1,6 @@
-import { Controller, Get, HttpCode, Param, ParseBoolPipe, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, HttpCode, Param, ParseBoolPipe, ParseIntPipe, Query, UseGuards } from '@nestjs/common';
 import { QueryPipe } from './pipes/query.pipe';
+import { AuthGuard } from './auth/auth.guard';
 
 @Controller()
 export class HelloController {
@@ -27,6 +28,7 @@ export class HelloController {
     return status;
   }
   @Get('greeting')
+  @UseGuards(AuthGuard)
   public greeting(@Query(QueryPipe) query: { name: string, age: number }): string {
     console.log(`Name: ${typeof query.name}`);
     console.log(`Age: ${typeof query.age}`);
