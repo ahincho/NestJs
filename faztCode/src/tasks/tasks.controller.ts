@@ -16,7 +16,6 @@ export class TasksController {
     return this.tasksService.getTaskById(parseInt(id));
   }
   @Post()
-  @UsePipes(new ValidationPipe())
   public createTask(@Body() taskRequest: TaskRequest): Task {
     return this.tasksService.createTask(taskRequest);
   }

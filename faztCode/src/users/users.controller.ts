@@ -15,7 +15,6 @@ export class UsersController {
     return this.usersService.getUserById(id);
   }
   @Post()
-  @UsePipes(new ValidationPipe())
   public createUser(@Body() userRequest: UserRequest): User {
     return this.usersService.createUser(userRequest);
   }
