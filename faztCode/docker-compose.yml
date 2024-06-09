@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      - POSTGRES_USER: postgres
+      - POSTGRES_PASSWORD: ahincho
+      - POSTGRES_DB: nest
+    ports:
+      - 5499:5432
