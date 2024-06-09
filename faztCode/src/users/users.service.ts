@@ -1,12 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './user';
 import { UserRequest } from './user.request';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class UsersService {
   private users: User[] = [];
-  public getUsers(): User[] {
-    return this.users;
+  constructor(private prismaService: PrismaService) { }
+  public getUsers() {
+    return this.prismaService.users.findMany();
   }
   public getUserById(id: number): User {
     if (id > 0 && id <= this.users.length) {
@@ -15,10 +17,8 @@ export class UsersService {
       console.log(`User with id ${id} not found`);
     }
   }
-  public createUser(userRequest: UserRequest): User {
-    let user = new User(this.users.length + 1, userRequest.name, userRequest.lastname, userRequest.email, userRequest.password, userRequest.age);
-    this.users.push(user);
-    return user;
+  public createUser(userRequest: UserRequest) {
+    return this.prismaService.users.create({ data: userRequest });
   }
   public updateUser(id: number, userRequest: UserRequest): void {
     if (id > 0 && id <= this.users.length) {
