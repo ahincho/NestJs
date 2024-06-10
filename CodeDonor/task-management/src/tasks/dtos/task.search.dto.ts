@@ -1,5 +1,5 @@
 import { IsIn, IsNotEmpty, IsOptional } from "class-validator";
-import { Status } from "../tasks.models";
+import { Status } from "../tasks.memory.models";
 
 export class TaskSearchDto {
   @IsOptional()

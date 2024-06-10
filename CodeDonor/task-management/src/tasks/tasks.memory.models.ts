@@ -1,4 +1,4 @@
-export interface Task {
+export interface TaskMemory {
   id: string;
   title: string;
   description: string;

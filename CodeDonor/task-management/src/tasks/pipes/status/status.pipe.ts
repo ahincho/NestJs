@@ -1,5 +1,5 @@
 import { ArgumentMetadata, BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
-import { Status } from '../../tasks.models';
+import { Status } from '../../tasks.memory.models';
 
 @Injectable()
 export class StatusPipe implements PipeTransform {

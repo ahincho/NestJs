@@ -1,17 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TasksService } from './tasks.service';
+import { TasksMemoryService } from './tasks.memory.service';
 
 describe('TasksService', () => {
-  let service: TasksService;
-
+  let service: TasksMemoryService;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [TasksService],
+      providers: [TasksMemoryService],
     }).compile();
 
-    service = module.get<TasksService>(TasksService);
+    service = module.get<TasksMemoryService>(TasksMemoryService);
   });
-
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
