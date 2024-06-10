@@ -1,14 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TasksMemoryController } from './tasks.memory.controller';
 import { TasksMemoryService } from './tasks.memory.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { TaskRepository } from './persistence/task.repository';
+import { TasksPersistenceService } from './tasks.persistence.service';
+import { TasksPersistenceController } from './tasks.persistence.controller';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([TaskRepository])
-  ],
-  controllers: [TasksMemoryController],
-  providers: [TasksMemoryService]
+  controllers: [TasksMemoryController, TasksPersistenceController],
+  providers: [TasksMemoryService, TasksPersistenceService]
 })
 export class TasksModule {}
