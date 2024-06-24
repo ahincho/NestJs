@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './persistence/user.entity';
 import { Repository } from 'typeorm';
@@ -10,6 +10,7 @@ import { JwtResponseDto } from './dtos/jwt.reponse.dto';
 
 @Injectable()
 export class AuthService {
+  private logger = new Logger('AuthService')
   constructor (
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
@@ -20,7 +21,6 @@ export class AuthService {
     userEntity.username = userCreateDto.username;
     userEntity.salt = await bcrypt.genSalt();
     userEntity.password = await this.hashPassword(userCreateDto.password, userEntity.salt);
-    console.log(userEntity.password);
     try {
       return (await this.userRepository.save(userEntity)).username;
     } catch (error) {

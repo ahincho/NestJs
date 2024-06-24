@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TaskEntity } from './persistence/task.entity';
 import { Like, Repository } from 'typeorm';
@@ -10,6 +10,7 @@ import { UserEntity } from 'src/auth/persistence/user.entity';
 
 @Injectable()
 export class TasksPersistenceService {
+  private logger = new Logger('TaskPersistenceService');
   constructor (
     @InjectRepository(TaskEntity)
     private readonly taskRepository: Repository<TaskEntity>
@@ -31,6 +32,7 @@ export class TasksPersistenceService {
   public async getTaskById(id: number, userEntity: UserEntity): Promise<TaskEntity> {
     const task = await this.taskRepository.findOneBy({ id, user: userEntity });
     if (!task) {
+      this.logger.error(`Task with taskId=${id} does not exists`);
       throw new NotFoundException(`Task with the id = ${id} does not exists!`);
     }
     return task;
@@ -49,8 +51,8 @@ export class TasksPersistenceService {
   public async updateTaskById(id: number, taskUpdateDto: TaskUpdateDto, userEntity: UserEntity): Promise<void> {
     const { title, description, status } = taskUpdateDto;
     const task = await this.taskRepository.findOneBy({ id, user: userEntity });
-    console.log(task);
     if (!task) {
+      this.logger.error(`Task with the taskId=${id} does not exists`);
       throw new NotFoundException(`Task with the id = ${id} does not exists!`);
     }
     task.title = title;
@@ -58,17 +60,19 @@ export class TasksPersistenceService {
     task.status = status;
     await this.taskRepository.update(id, task);
   }
-  public async updateTaskStatusById(id: number, status: Status): Promise<void> {
-    const task = await this.taskRepository.findOneBy({ id });
+  public async updateTaskStatusById(id: number, status: Status, userEntity: UserEntity): Promise<void> {
+    const task = await this.taskRepository.findOneBy({ id, user: userEntity });
     if (!task) {
+      this.logger.error(`Task with the taskId=${id} does not exists`);
       throw new NotFoundException(`Task with the id = ${id} does not exists!`);
     }
     task.status = status;
     await this.taskRepository.update(id, task);
   }
-  public async deleteTaskById(id: number): Promise<void> {
-    const task = await this.taskRepository.findOneBy({ id });
+  public async deleteTaskById(id: number, userEntity: UserEntity): Promise<void> {
+    const task = await this.taskRepository.findOneBy({ id, user: userEntity });
     if (!task) {
+      this.logger.error(`Task with the taskId=${id} does not exists`);
       throw new NotFoundException(`Task with the id = ${id} does not exists!`);
     }
     await this.taskRepository.delete({ id });

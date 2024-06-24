@@ -4,7 +4,7 @@
   "description": "Task Management",
   "author": "Angel Hincho",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
