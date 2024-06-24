@@ -16,7 +16,7 @@ Video: https://youtu.be/wsqcg5ZtUMM
 
 Source Code: https://github.com/FaztWeb/nestjs-course
 
-## Master NestJs with Modern TypeScript
+## Master NestJs with Modern TypeScript by CodeDonor
 
 Video: https://youtu.be/tC9llkCzvl8
 
