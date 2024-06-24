@@ -1,5 +1,6 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Status } from "../tasks.memory.models";
+import { UserEntity } from "src/auth/persistence/user.entity";
 
 @Entity('tasks')
 export class TaskEntity extends BaseEntity {
@@ -11,6 +12,8 @@ export class TaskEntity extends BaseEntity {
   description: string;
   @Column()
   status: Status;
+  @ManyToOne(type => UserEntity, user => user.tasks, { eager: false })
+  user: UserEntity
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()
