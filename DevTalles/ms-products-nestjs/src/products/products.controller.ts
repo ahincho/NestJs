@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
+import { Controller, ParseIntPipe } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { PaginationRequest, PaginationResponse } from 'src/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -8,24 +9,24 @@ import { Product } from './entities/product.entity';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) { }
-  @Post()
-  async create(@Body() createProductDto: CreateProductDto): Promise<Product> {
+  @MessagePattern({ cmd: 'create-product' })
+  async create(@Payload() createProductDto: CreateProductDto): Promise<Product> {
     return await this.productsService.create(createProductDto);
   }
-  @Get()
-  async findAll(@Query() paginationRequest: PaginationRequest): Promise<PaginationResponse<Product[]>> {
-    return await this.productsService.findAll(paginationRequest);
+  @MessagePattern({ cmd: 'find-products' })
+  async find(@Payload() paginationRequest: PaginationRequest): Promise<PaginationResponse<Product[]>> {
+    return await this.productsService.find(paginationRequest);
   }
-  @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  @MessagePattern({ cmd: 'find-product' })
+  async findOne(@Payload('id', ParseIntPipe) id: number) {
     return this.productsService.findOne(id);
   }
-  @Patch(':id')
-  async update(@Param('id', ParseIntPipe) id: number, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(id, updateProductDto);
+  @MessagePattern({ cmd: 'update-product' })
+  async update(@Payload() updateProductDto: UpdateProductDto) {
+    return this.productsService.update(updateProductDto);
   }
-  @Delete(':id')
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+  @MessagePattern({ cmd: 'delete-product' })
+  async remove(@Payload('id', ParseIntPipe) id: number): Promise<void> {
     await this.productsService.remove(id);
   }
 }
